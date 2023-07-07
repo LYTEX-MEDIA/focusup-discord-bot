@@ -77,6 +77,24 @@ class TicketDatabase:
         self.conn.commit()
 
 
+    def get_channel_id(self, user_id):
+        """
+        Retrieves the channel ID associated with a ticket from the 'tickets' table.
+
+        Args:
+            user_id (int): The ID of the user.
+
+        Returns:
+            int: The channel ID associated with the ticket.
+        """
+        self.cursor.execute('''SELECT channel_id FROM tickets WHERE user_id = ?''', (user_id,))
+        result = self.cursor.fetchone()
+        if result:
+            return result[0]
+        else:
+            return None
+
+
     def close(self):
         """
         Closes the database connection.

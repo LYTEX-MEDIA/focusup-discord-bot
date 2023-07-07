@@ -1,11 +1,12 @@
 {
-    "version": "0.0.2",
+    "version": "0.0.3",
     "authors": [
         "immanuel"
     ],
     "database-file-name": "db.sqlite",
     "status-text": "its To Do's",
     "lytex-media-guild-id": 938143761060495370,
+    "open-tickets-category-id": 1126889242686128238,
 
     "focusup-web-link": "https://focusup.app",
     "focusup-logo-url": "https://ucarecdn.com/048206ff-d5c2-40f5-aa21-eed01aace00a/-/preview/469x216/-/quality/smart/-/format/auto/",

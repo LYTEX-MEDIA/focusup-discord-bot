@@ -29,7 +29,8 @@ client = commands.Bot(
 
 @client.event
 async def on_ready():
-    print(f"""Version: {config.getdata("version")}
+    print(f"""
+          Version: {config.getdata("version")}
           Authors: {', '.join(config.getdata('authors'))}
           {current_year} © LYTEX MEDIA
           """)
@@ -48,7 +49,7 @@ def load_cogs():
 
     for cog in ticket_cogs:
         client.load_extension(f'cogs.ticket-support.{cog}')
-
+        
 
 def start_bot():
     try:

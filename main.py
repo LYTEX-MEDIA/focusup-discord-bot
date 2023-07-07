@@ -29,11 +29,10 @@ client = commands.Bot(
 
 @client.event
 async def on_ready():
-    print(f"""
-        Version: {config.getdata("version")}
-        Authors: {config.getdata("authors")}
-        {current_year} © LYTEX MEDIA
-        """)
+    print(f"""Version: {config.getdata("version")}
+          Authors: {', '.join(config.getdata('authors'))}
+          {current_year} © LYTEX MEDIA
+          """)
     
     db.TicketDatabase().create_table()
 

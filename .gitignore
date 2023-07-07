@@ -1,8 +1,7 @@
-# custom files
+# Custom files
 *.sqlite
 *.sqlite3
 *.db
-.env
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

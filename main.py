@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
-from pathlib import Path
 from dotenv import load_dotenv
+from pathlib import Path
 import datetime
 import os
 
@@ -36,6 +36,7 @@ async def on_ready():
           """)
     
     db.TicketDatabase().create_table()
+    db.TicketDatabase().close()
 
 
 def load_cogs():

@@ -61,6 +61,10 @@ class CreateTicket(commands.Cog):
                                          custom_id='mod-close-ticket-btn',
                                          style=ButtonStyle.red,
                                          emoji='🔒')
+            mod_ban_button = Button(label='Ban user',
+                                    custom_id='mod-ban-ticket-btn',
+                                    style=ButtonStyle.blurple,
+                                    emoji='🚫')
 
             mod_panel_embed=discord.Embed(title='FocusUp | Support Ticket',
                                   description=f'{ctx.author.mention} has created a ticket!',
@@ -72,7 +76,9 @@ class CreateTicket(commands.Cog):
             mod_panel_embed.add_field(name='Reason', value=reason, inline=len(reason) < 75)
             mod_panel_embed.add_field(name='FocusUp ID', value=focusup_id, inline=len(reason) < 75)
 
-            mod_panel_embed = await ticket_channel.send(embed=mod_panel_embed, components=[mod_close_button])
+            mod_panel_embed = await ticket_channel.send(embed=mod_panel_embed,
+                                                        components=[mod_close_button, mod_ban_button])
+            
             await mod_panel_embed.pin()
 
 

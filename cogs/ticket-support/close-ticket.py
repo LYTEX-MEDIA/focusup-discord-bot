@@ -11,6 +11,7 @@ class CloseTicket(commands.Cog):
         self.client = client
 
 
+    # Handle user closing ticket
     @commands.Cog.on_click(custom_id='close-ticket-btn')
     async def close_ticket_button(self, ctx, _):
         await ctx.message.edit(components=[Button(label='Close Ticket',
@@ -41,7 +42,45 @@ class CloseTicket(commands.Cog):
             await ticket_channel.send(embed=embed)
             await ticket_channel.edit(name=f'┝┇closed-{ctx.author.name}')
         except Exception as e:
-            print(f'Ticket channel not found!\n{e}')
+            discord.logging.error(f'Ticket channel not found!\n{e}')
+        
+        ticketdb.remove_ticket(ctx.author.id)
+        ticketdb.close()
+        
+        
+    # Handle moderator closing ticket
+    @commands.Cog.on_click(custom_id='mod-close-ticket-btn')
+    async def close_ticket_button(self, ctx, _):
+        await ctx.message.edit(components=[
+            Button(label='Close Ticket',
+                   custom_id='close-ticket-btn',
+                   style=ButtonStyle.red,
+                   emoji='🔒',
+                   disabled=True),
+            
+            Button(label='Ban user',
+                   custom_id='mod-ban-ticket-btn',
+                   style=ButtonStyle.blurple,
+                   emoji='🚫',
+                   disabled=True)
+            ])
+        await ctx.message.unpin()
+        
+        embed=discord.Embed(title='FocusUp | Support Ticket',
+                                           description=f'The Ticket has been closed by {ctx.author.mention}!',
+                                           color=0x8f39c4)
+        embed.set_author(name=f'{main.current_year} © LYTEX MEDIA', icon_url=main.config.getdata('lytex-media-logo-url'))
+        
+        ticketdb = db.TicketDatabase()
+        
+        try:
+            ticket_user = self.client.get_user(ticketdb.get_user_id(ctx.channel.id))
+            await ticket_user.send(embed=embed)
+        except Exception as e:
+            discord.logging.error(f'Error: couldn\'t send message to user!\n{e}')
+            
+        await ctx.respond(embed=embed)
+        await ctx.channel.edit(name=f'┝┇closed-{ticket_user.name}')
         
         ticketdb.remove_ticket(ctx.author.id)
         ticketdb.close()

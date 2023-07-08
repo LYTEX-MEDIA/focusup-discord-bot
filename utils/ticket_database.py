@@ -23,6 +23,21 @@ class TicketDatabase:
                                 focusup_id TEXT DEFAULT NULL
                             )''')
         self.conn.commit()
+    
+    
+    def has_ticket(self, channel_id):
+        """
+        Checks if a ticket exists for a given user ID.
+
+        Args:
+            channel_id (int): The ID of the ticket channel.
+
+        Returns:
+            bool: True if a ticket exists, False otherwise.
+        """
+        self.cursor.execute('''SELECT COUNT(*) FROM tickets WHERE channel_id = ?''', (channel_id,))
+        count = self.cursor.fetchone()[0]
+        return count > 0
 
 
     def add_ticket(self, user_id, message_id, channel_id, focusup_id=None):
@@ -88,6 +103,60 @@ class TicketDatabase:
             int: The channel ID associated with the ticket.
         """
         self.cursor.execute('''SELECT channel_id FROM tickets WHERE user_id = ?''', (user_id,))
+        result = self.cursor.fetchone()
+        if result:
+            return result[0]
+        else:
+            return None
+    
+    
+    def get_message_id(self, channel_id):
+        """
+        Retrieves the message ID associated with a ticket from the 'tickets' table.
+
+        Args:
+            channel_id (int): The ID of the ticket channel.
+
+        Returns:
+            int: The message ID associated with the ticket.
+        """
+        self.cursor.execute('''SELECT message_id FROM tickets WHERE channel_id = ?''', (channel_id,))
+        result = self.cursor.fetchone()
+        if result:
+            return result[0]
+        else:
+            return None
+    
+    
+    def get_user_id(self, channel_id):
+        """
+        Retrieves the user ID associated with a ticket from the 'tickets' table.
+
+        Args:
+            channel_id (int): The ID of the ticket channel.
+
+        Returns:
+            int: The user ID associated with the ticket.
+        """
+        self.cursor.execute('''SELECT user_id FROM tickets WHERE channel_id = ?''', (channel_id,))
+        result = self.cursor.fetchone()
+        if result:
+            return result[0]
+        else:
+            return None
+    
+    
+    def get_focusup_id(self, user_id):
+        """
+        Retrieves the FocusUp ID associated with a ticket from the 'tickets' table.
+
+        Args:
+            user_id (int): The ID of the user.
+
+        Returns:
+            str: The FocusUp ID associated with the ticket.
+        """
+        self.cursor.execute('''SELECT focusup_id FROM tickets WHERE user_id = ?''', (user_id,))
         result = self.cursor.fetchone()
         if result:
             return result[0]

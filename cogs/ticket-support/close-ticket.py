@@ -3,7 +3,7 @@ from discord.ext import commands
 from discord import Button, ButtonStyle
 
 import main
-import utils.database as db
+import utils.ticket_database as db
 
 
 class CloseTicket(commands.Cog):

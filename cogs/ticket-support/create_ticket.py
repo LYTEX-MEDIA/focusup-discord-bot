@@ -3,7 +3,7 @@ from discord.ext import commands
 from discord import Button, ButtonStyle
 
 import main
-import utils.database as db
+import utils.ticket_database as db
 
 
 class CreateTicket(commands.Cog):
@@ -38,6 +38,7 @@ class CreateTicket(commands.Cog):
             author_panel_embed_msg = await ctx.respond(embed=author_panel_embed, components=[author_close_button])
             await author_panel_embed_msg.pin()
             
+            # Todo: Add getFocusUpID function
             focusup_id = None
             
             

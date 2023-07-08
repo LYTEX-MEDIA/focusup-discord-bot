@@ -5,7 +5,7 @@ from pathlib import Path
 import datetime
 import os
 
-import utils.database as db
+import utils.ticket_database as db
 from utils.config import Config
 
 

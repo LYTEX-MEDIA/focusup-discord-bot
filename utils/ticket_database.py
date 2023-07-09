@@ -189,7 +189,8 @@ class BannedDatabase:
                                 user_id INTEGER,
                                 moderator_id INTEGER,
                                 focusup_id TEXT DEFAULT NULL,
-                                reason TEXT DEFAULT NULL
+                                reason TEXT DEFAULT NULL,
+                                ban_appeal BOOLEAN DEFAULT FALSE
                             )''')
         self.conn.commit()
     
@@ -219,7 +220,7 @@ class BannedDatabase:
             user_id (int): The ID of the banned user.
 
         Returns:
-            tuple: The banned user's information as a tuple (user_id, moderation_id, focusup_id, reason).
+            tuple: The banned user's information as a tuple (user_id, moderation_id, focusup_id, reason, ban_appeal).
                    Returns None if the user is not found.
         """
         self.cursor.execute('''SELECT * FROM banned_from_tickets WHERE user_id = ?''', (user_id,))
@@ -236,8 +237,8 @@ class BannedDatabase:
             focusup_id (str, optional): The FocusUp ID of the banned user. Defaults to None.
             reason (str, optional): The reason for the ban. Defaults to None.
         """
-        self.cursor.execute('''INSERT INTO banned_from_tickets (user_id, moderator_id, focusup_id, reason)
-                               VALUES (?, ?, ?, ?)''', (user_id, moderator_id, focusup_id, '"' + reason + '"'))
+        self.cursor.execute('''INSERT INTO banned_from_tickets (user_id, moderator_id, focusup_id, reason, ban_appeal)
+                               VALUES (?,?,?,?,?)''', (user_id, moderator_id, focusup_id, '"' + reason + '"', False))
         self.conn.commit()
     
     
@@ -250,6 +251,53 @@ class BannedDatabase:
         """
         self.cursor.execute('''DELETE FROM banned_from_tickets WHERE user_id = ?''', (user_id,))
         self.conn.commit()
+    
+    
+    def get_ban_reason(self, user_id):
+        """
+        Retrieves the ban reason for a banned user.
+
+        Args:
+            user_id (int): The ID of the banned user.
+
+        Returns:
+            str: The ban reason for the user. Returns None if the user is not found or there is no reason provided.
+        """
+        self.cursor.execute('''SELECT reason FROM banned_from_tickets WHERE user_id = ?''', (user_id,))
+        result = self.cursor.fetchone()
+        if result:
+            return result[0]
+        else:
+            return None
+    
+    
+    def update_ban_appeal(self, user_id):
+        """
+        Updates the ban appeal status for a banned user to True.
+
+        Args:
+            user_id (int): The ID of the banned user.
+        """
+        self.cursor.execute('''UPDATE banned_from_tickets SET ban_appeal = ? WHERE user_id = ?''', (True, user_id))
+        self.conn.commit()
+
+    
+    def get_ban_appeal(self, user_id):
+        """
+        Retrieves the ban appeal status for a banned user.
+
+        Args:
+            user_id (int): The ID of the banned user.
+
+        Returns:
+            bool: The ban appeal status for the user. Returns False if the user is not found or no ban appeal is recorded.
+        """
+        self.cursor.execute('''SELECT ban_appeal FROM banned_from_tickets WHERE user_id = ?''', (user_id,))
+        result = self.cursor.fetchone()
+        if result:
+            return bool(result[0])
+        else:
+            return False
 
 
     def close(self):

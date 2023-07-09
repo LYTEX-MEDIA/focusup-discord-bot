@@ -41,7 +41,7 @@ class TicketUnBan(commands.Cog):
         
         await ctx.respond(embed=embed)
         
-        db.BannedDatabase.close()
+        db.BannedDatabase().close()
         
         # Try to send a DM to the user
         try:

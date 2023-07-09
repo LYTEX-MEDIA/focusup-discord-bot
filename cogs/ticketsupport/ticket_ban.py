@@ -46,7 +46,7 @@ class TicketBan(commands.Cog):
         
         await ctx.respond(embed=embed)
         
-        db.BannedDatabase.close()
+        db.BannedDatabase().close()
         
 
 def setup(client):

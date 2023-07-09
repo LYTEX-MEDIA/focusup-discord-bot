@@ -5,8 +5,8 @@ from pathlib import Path
 import datetime
 import os
 
-import utils.ticket_database as db
 from utils.config import Config
+import utils.ticket_database as db
 
 
 load_dotenv()

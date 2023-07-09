@@ -42,7 +42,7 @@ class CreateTicket(commands.Cog):
             
         author_panel_embed.set_author(name=f'{main.current_year} © LYTEX MEDIA', icon_url=main.config.getdata('lytex-media-logo-url'))
         author_panel_embed.add_field(name='Reason', value=reason, inline=len(reason) < 75)
-        author_panel_embed.add_field(name='Other contact', value='contact@lytexmedia.com', inline=len(reason) < 75)
+        author_panel_embed.add_field(name='Other contact', value='support@lytexmedia.com', inline=len(reason) < 75)
         author_panel_embed_msg = await ctx.respond(embed=author_panel_embed, components=[author_close_button])
         await author_panel_embed_msg.pin()
         

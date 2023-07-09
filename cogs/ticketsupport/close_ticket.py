@@ -21,7 +21,7 @@ class CloseTicket(commands.Cog):
                                          disabled=True)])
         await ctx.message.unpin()
         
-        embed=discord.Embed(title='FocusUp | Support Ticket',
+        embed=discord.Embed(title='FocusUp | Ticket Support',
                                            description='Your Ticket has been closed!',
                                            color=0x8f39c4)
         embed.set_author(name=f'{main.current_year} © LYTEX MEDIA', icon_url=main.config.getdata('lytex-media-logo-url'))
@@ -34,7 +34,7 @@ class CloseTicket(commands.Cog):
         try:
             ticket_channel = self.client.get_channel(ticketdb.get_channel_id(ctx.author.id))
             
-            embed = discord.Embed(title='FocusUp | Support Ticket',
+            embed = discord.Embed(title='FocusUp | Ticket Support',
                                             description=f'{ctx.author.mention} has closed the ticket!',
                                             timestamp=ctx.created_at,
                                             color=0x8f39c4)
@@ -56,17 +56,11 @@ class CloseTicket(commands.Cog):
                    custom_id='close-ticket-btn',
                    style=ButtonStyle.red,
                    emoji='🔒',
-                   disabled=True),
-            
-            Button(label='Ban user',
-                   custom_id='mod-ban-ticket-btn',
-                   style=ButtonStyle.blurple,
-                   emoji='🚫',
                    disabled=True)
             ])
         await ctx.message.unpin()
         
-        embed=discord.Embed(title='FocusUp | Support Ticket',
+        embed=discord.Embed(title='FocusUp | Ticket Support',
                                            description=f'The Ticket has been closed by {ctx.author.mention}!',
                                            color=0x8f39c4)
         embed.set_author(name=f'{main.current_year} © LYTEX MEDIA', icon_url=main.config.getdata('lytex-media-logo-url'))

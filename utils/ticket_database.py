@@ -169,3 +169,91 @@ class TicketDatabase:
         Closes the database connection.
         """
         self.conn.close()
+
+
+class BannedDatabase:
+    def __init__(self):
+        """
+        Initializes the database connection.
+        """
+        self.db_name = main.config.getdata('database-file-name')
+        self.conn = sqlite3.connect(self.db_name)
+        self.cursor = self.conn.cursor()
+
+
+    def create_table(self):
+        """
+        Creates the 'banned_from_tickets' table if it doesn't exist.
+        """
+        self.cursor.execute('''CREATE TABLE IF NOT EXISTS banned_from_tickets (
+                                user_id INTEGER,
+                                moderator_id INTEGER,
+                                focusup_id TEXT DEFAULT NULL,
+                                reason TEXT DEFAULT NULL
+                            )''')
+        self.conn.commit()
+    
+    
+    def is_banned(self, user_id):
+        """Checks if a user is banned from creating tickets.
+
+        Args:
+            user_id (int): The ID of the user.
+
+        Returns:
+            bool: True if the user is banned, False otherwise.
+        """
+        banned_user = self.get_banned_user(user_id)
+
+        if banned_user is None:
+            return False
+        else:
+            return True
+
+    
+    def get_banned_user(self, user_id):
+        """
+        Retrieves information about a banned user.
+
+        Args:
+            user_id (int): The ID of the banned user.
+
+        Returns:
+            tuple: The banned user's information as a tuple (user_id, moderation_id, focusup_id, reason).
+                   Returns None if the user is not found.
+        """
+        self.cursor.execute('''SELECT * FROM banned_from_tickets WHERE user_id = ?''', (user_id,))
+        return self.cursor.fetchone()
+
+
+    def add_banned_user(self, user_id, moderator_id, focusup_id=None, reason=None):
+        """
+        Adds a banned user to the 'banned_from_tickets' table.
+
+        Args:
+            user_id (int): The ID of the user.
+            moderator_id (int): The ID of the moderation.
+            focusup_id (str, optional): The FocusUp ID of the banned user. Defaults to None.
+            reason (str, optional): The reason for the ban. Defaults to None.
+        """
+        self.cursor.execute('''INSERT INTO banned_from_tickets (user_id, moderator_id, focusup_id, reason)
+                               VALUES (?, ?, ?, ?)''', (user_id, moderator_id, focusup_id, '"' + reason + '"'))
+        self.conn.commit()
+    
+    
+    def remove_banned_user(self, user_id):
+        """
+        Removes a banned user from the 'banned_from_tickets' table.
+
+        Args:
+            user_id (int): The ID of the user.
+        """
+        self.cursor.execute('''DELETE FROM banned_from_tickets WHERE user_id = ?''', (user_id,))
+        self.conn.commit()
+
+
+    def close(self):
+        """
+        Closes the database connection.
+        """
+        self.conn.close()

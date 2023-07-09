@@ -25,7 +25,7 @@ class TicketCommunication(commands.Cog):
                     ticket_user = self.client.get_user(ticketdb.get_user_id(message.channel.id))
                     
                     embed = discord.Embed(
-                        title='FocusUp | Support Ticket',
+                        title='FocusUp | Ticket Support',
                         description=message.content,
                         timestamp=message.created_at,
                         color=0xaf30e6
@@ -55,7 +55,7 @@ class TicketCommunication(commands.Cog):
             ticket_channel = self.client.get_channel(ticket_channel_id)
             
             embed = discord.Embed(
-                title='FocusUp | Support Ticket',
+                title='FocusUp | Ticket Support',
                 description=message.content,
                 timestamp=message.created_at,
                 color=0x4287f5

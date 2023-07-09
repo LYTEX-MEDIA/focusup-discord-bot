@@ -13,7 +13,7 @@ load_dotenv()
 config = Config('config.json')
 
 COMMANDS_DIR = Path.cwd() / 'cogs' / 'commands'
-TICKET_DIR = Path.cwd() / 'cogs' / 'ticket-support'
+TICKET_DIR = Path.cwd() / 'cogs' / 'ticketsupport'
 
 current_year = datetime.datetime.now().year
 
@@ -37,6 +37,9 @@ async def on_ready():
     
     db.TicketDatabase().create_table()
     db.TicketDatabase().close()
+    
+    db.BannedDatabase().create_table()
+    db.BannedDatabase().close()
 
 
 def load_cogs():
@@ -49,7 +52,7 @@ def load_cogs():
         client.load_extension(f'cogs.commands.{cog}')
 
     for cog in ticket_cogs:
-        client.load_extension(f'cogs.ticket-support.{cog}')
+        client.load_extension(f'cogs.ticketsupport.{cog}')
         
 
 def start_bot():

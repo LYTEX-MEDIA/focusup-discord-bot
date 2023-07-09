@@ -13,6 +13,9 @@ class ShowWebsite(commands.Cog):
         embed=discord.Embed(title='', description='\n', color=0x5b26a6)
         embed.add_field(name='FocusUp', value=f'[focusup.app]({main.config.getdata("focusup-web-link")})', inline=True)
         embed.add_field(name='LYTEX MEDIA', value=f'[Founder of Focusup]({main.config.getdata("lytex-media-web-link")})', inline=True)
+        embed.add_field(name='Sourcecode',
+                        value=f'This Bot is btw Opensource: [click]({main.config.getdata("focusup-dc-bot-github-link")})',
+                        inline=False)
         embed.set_author(name=f'{main.current_year} © LYTEX MEDIA', icon_url=main.config.getdata('lytex-media-logo-url'))
         
         await ctx.respond(embed=embed)

@@ -35,11 +35,7 @@ async def on_ready():
           {current_year} © LYTEX MEDIA
           """)
     
-    db.TicketDatabase().create_table()
-    db.TicketDatabase().close()
-    
-    db.BannedDatabase().create_table()
-    db.BannedDatabase().close()
+    create_database()
 
 
 def load_cogs():
@@ -61,6 +57,14 @@ def start_bot():
         client.run(os.getenv('DISCORD_SECRET_TOKEN'))
     except Exception as e:
         print(f"Error: couldn't start the client...\n{e}")
+
+
+def create_database():
+    db.TicketDatabase().create_table()
+    db.TicketDatabase().close()
+    
+    db.BannedDatabase().create_table()
+    db.BannedDatabase().close()
 
 
 if __name__ == '__main__':

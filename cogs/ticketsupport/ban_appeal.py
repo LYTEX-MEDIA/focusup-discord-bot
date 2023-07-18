@@ -27,10 +27,11 @@ class TicketBanAppeal(commands.Cog):
             return
         
         if db.BannedDatabase().get_ban_appeal(ctx.author.id):
-            await ctx.respond(f'You have already sent a ban appeal!\nIf it is important, contact and happy to email `support@lytexmedia.com`', hidden=True)
+            await ctx.respond(f'You have already sent a ban appeal!\nIf it is important, contact and happy to email `{main.config.getdata("support-email")}`',
+                              hidden=True)
             return
         
-        # update the ban appeal status in the database
+        # Update the ban appeal status in the database
         db.BannedDatabase().update_ban_appeal(ctx.author.id)
         
         

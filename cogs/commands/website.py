@@ -16,6 +16,8 @@ class ShowWebsite(commands.Cog):
         embed.add_field(name='Sourcecode',
                         value=f'This Bot is btw Opensource: [click]({main.config.getdata("focusup-dc-bot-github-link")})',
                         inline=False)
+        embed.add_field(name='Support Email', value=f'`{main.config.getdata("support-email")}`', inline=False)
+        embed.add_field(name='Contact Email', value=f'`{main.config.getdata("contact-email")}`', inline=False)
         embed.set_author(name=f'{main.current_year} © LYTEX MEDIA', icon_url=main.config.getdata('lytex-media-logo-url'))
         
         await ctx.respond(embed=embed)

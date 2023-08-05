@@ -3,6 +3,7 @@
     "authors": [
         "immanuel"
     ],
+    "license": "Apache-2.0",
     "database-file-name": "db.sqlite",
     "status-text": "its To Do's",
 

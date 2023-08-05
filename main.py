@@ -31,7 +31,8 @@ client = commands.Bot(
 async def on_ready():
     print(f'Version: {config.getdata("version")}')
     print(f'Authors: {config.getdata("authors")}')
-    print(f'{current_year} © LYTEX MEDIA')
+    print(f'License: {config.getdata("license")}')
+    print(f'Copyright: {current_year} © LYTEX MEDIA')
     
     create_database()
 
@@ -58,11 +59,13 @@ def start_bot():
 
 
 def create_database():
-    db.TicketDatabase().create_table()
-    db.TicketDatabase().close()
-    
-    db.BannedDatabase().create_table()
-    db.BannedDatabase().close()
+    ticket_db = db.TicketDatabase()
+    ticket_db.create_table()
+    ticket_db.close()
+
+    banned_db = db.BannedDatabase()
+    banned_db.create_table()
+    banned_db.close()
 
 
 if __name__ == '__main__':

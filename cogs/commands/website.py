@@ -12,7 +12,7 @@ class ShowWebsite(commands.Cog):
     async def show_website(self, ctx):
         embed=discord.Embed(title='', description='\n', color=0x5b26a6)
         embed.add_field(name='FocusUp', value=f'[focusup.app]({main.config.getdata("focusup-web-link")})', inline=True)
-        embed.add_field(name='LYTEX MEDIA', value=f'[Founder of Focusup]({main.config.getdata("lytex-media-web-link")})', inline=True)
+        embed.add_field(name='LYTEX MEDIA', value=f'[Team of Focusup]({main.config.getdata("lytex-media-web-link")})', inline=True)
         embed.add_field(name='Sourcecode',
                         value=f'This Bot is btw Opensource: [click]({main.config.getdata("focusup-dc-bot-github-link")})',
                         inline=False)

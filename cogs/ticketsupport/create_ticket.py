@@ -24,27 +24,30 @@ class CreateTicket(commands.Cog):
             return
         
         if ctx.guild is None:
-            await ctx.respond(f'Please use this command a guild!', hidden=True)
+            await ctx.respond(f'Please use this command in a guild!', hidden=True)
             return
+        
+        check_dm_embed = discord.Embed(title='FocusUp | Ticket Support', description='Please check your DMs!', color=0x32a852)
+        await ctx.respond(embed=check_dm_embed, hidden=True)
             
         author_close_button=Button(label='Close Ticket',
                                     custom_id='close-ticket-btn',
                                     style=ButtonStyle.red,
                                     emoji='🔒')
-        author_panel_embed=discord.Embed(title='FocusUp | Ticket Support',
+        embed=discord.Embed(title='FocusUp | Ticket Support',
                             description="""Your Ticket has been created! Please wait for a staff member to respond.
                                             \nAll communication will take place via our Private Chat.
                                             Your messages will be sent to our staff members and we
                                             respond you in the private chat until you close the ticket by clicking
                                             on the "close" button on this message (pinned).""",
                             timestamp=ctx.created_at,
-                            color=0x7500e3)
+                            color=0x32a852)
             
-        author_panel_embed.set_author(name=f'{main.current_year} © LYTEX MEDIA', icon_url=main.config.getdata('lytex-media-logo-url'))
-        author_panel_embed.add_field(name='Reason', value=reason, inline=len(reason) < 75)
-        author_panel_embed.add_field(name='Other contact', value=f'{main.config.getdata("support-email")}', inline=len(reason) < 75)
-        author_panel_embed_msg = await ctx.respond(embed=author_panel_embed, components=[author_close_button])
-        await author_panel_embed_msg.pin()
+        embed.set_author(name=f'{main.current_year} © LYTEX MEDIA', icon_url=main.config.getdata('lytex-media-logo-url'))
+        embed.add_field(name='Reason', value=reason, inline=len(reason) < 75)
+        embed.add_field(name='Other contact', value=f'{main.config.getdata("support-email")}', inline=len(reason) < 75)
+        embed_msg = await ctx.author.send(embed=embed, components=[author_close_button])
+        await embed_msg.pin()
         
         # Todo: Add getFocusUpID function
         focusup_id = None
@@ -59,7 +62,7 @@ class CreateTicket(commands.Cog):
                                                                         permission_synced=True)
             
         ticketdb = db.TicketDatabase()
-        ticketdb.add_ticket(ctx.author.id, author_panel_embed_msg.id, ticket_channel.id)
+        ticketdb.add_ticket(ctx.author.id, embed_msg.id, ticket_channel.id)
         ticketdb.close()
         
         
@@ -71,7 +74,7 @@ class CreateTicket(commands.Cog):
         mod_panel_embed=discord.Embed(title='FocusUp | Ticket Support',
                             description=f'{ctx.author.mention} has created a ticket!',
                             timestamp=ctx.created_at,
-                            color=0x7500e3)
+                            color=0x32a852)
         
         mod_panel_embed.set_author(name=f'{ctx.author} | {ctx.author.id}', icon_url=ctx.author.avatar_url)
         mod_panel_embed.add_field(name='Reason', value=reason, inline=len(reason) < 75)

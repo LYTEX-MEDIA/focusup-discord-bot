@@ -29,11 +29,9 @@ client = commands.Bot(
 
 @client.event
 async def on_ready():
-    print(f"""
-          Version: {config.getdata("version")}
-          Authors: {', '.join(config.getdata('authors'))}
-          {current_year} © LYTEX MEDIA
-          """)
+    print(f'Version: {config.getdata("version")}')
+    print(f'Authors: {config.getdata("authors")}')
+    print(f'{current_year} © LYTEX MEDIA')
     
     create_database()
 

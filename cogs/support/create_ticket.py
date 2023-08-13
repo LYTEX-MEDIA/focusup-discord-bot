@@ -11,10 +11,8 @@ class CreateTicket(commands.Cog):
         self.client = client
 
 
-    @commands.Cog.slash_command(name='ticket', description='Create a support ticket in DM')
+    @commands.Cog.slash_command(name='ticket', description='Create a support ticket in DM', allow_dm=True)
     async def create_ticket(self, ctx, reason: str='No reason provided'):
-        await ctx.defer()
-        
         if self.hasAlreadyTicket(ctx.author.id):
             await ctx.respond(f'You already have a ticket open!\n➜ {self.client.user.mention}', hidden=True)
             return
@@ -24,16 +22,14 @@ class CreateTicket(commands.Cog):
             return
         
         if ctx.guild is None:
-            await ctx.respond(f'Please use this command in a guild!', hidden=True)
+            await ctx.respond(f'Please use this command in guild!', hidden=True)
             return
         
-        check_dm_embed = discord.Embed(title='FocusUp | Ticket Support', description='Please check your DMs!', color=0x32a852)
+        check_dm_embed = discord.Embed(title='FocusUp | Ticket Support',
+                                       description='Please check your DMs!\nIf you got no message, please make sure,\nthat you enabled direct messages.',
+                                       color=0x32a852)
         await ctx.respond(embed=check_dm_embed, hidden=True)
             
-        author_close_button=Button(label='Close Ticket',
-                                    custom_id='close-ticket-btn',
-                                    style=ButtonStyle.red,
-                                    emoji='🔒')
         embed=discord.Embed(title='FocusUp | Ticket Support',
                             description="""Your Ticket has been created! Please wait for a staff member to respond.
                                             \nAll communication will take place via our Private Chat.
@@ -46,7 +42,7 @@ class CreateTicket(commands.Cog):
         embed.set_author(name=f'{main.current_year} © LYTEX MEDIA', icon_url=main.config.getdata('lytex-media-logo-url'))
         embed.add_field(name='Reason', value=reason, inline=len(reason) < 75)
         embed.add_field(name='Other contact', value=f'{main.config.getdata("support-email")}', inline=len(reason) < 75)
-        embed_msg = await ctx.author.send(embed=embed, components=[author_close_button])
+        embed_msg = await ctx.author.send(embed=embed)
         await embed_msg.pin()
         
         # Todo: Add getFocusUpID function

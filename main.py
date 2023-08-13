@@ -13,7 +13,7 @@ load_dotenv()
 config = Config('config.json')
 
 COMMANDS_DIR = Path.cwd() / 'cogs' / 'commands'
-TICKET_DIR = Path.cwd() / 'cogs' / 'ticketsupport'
+SUPPORT_DIR = Path.cwd() / 'cogs' / 'support'
 
 current_year = datetime.datetime.now().year
 
@@ -24,15 +24,15 @@ client = commands.Bot(
     activity=discord.Activity(type=discord.ActivityType.watching, name=config.getdata('status-text')),
     sync_commands=True,
     delete_not_existing_commands=True,
-    )
+)
 
 
 @client.event
 async def on_ready():
-    print(f'Version: {config.getdata("version")}')
-    print(f'Authors: {config.getdata("authors")}')
-    print(f'License: {config.getdata("license")}')
-    print(f'Copyright: {current_year} © LYTEX MEDIA')
+    print(f' - Version: {config.getdata("version")}')
+    print(' - ' + ', '.join(config.getdata("authors")))
+    print(f' - License: {config.getdata("license")}')
+    print(f' - Copyright: {current_year} © LYTEX MEDIA')
     
     create_database()
 
@@ -41,13 +41,13 @@ def load_cogs():
     print('Loading cogs...\n')
 
     command_cogs = [file.stem for file in COMMANDS_DIR.glob('**/*.py') if not file.name.startswith('__')]
-    ticket_cogs = [file.stem for file in TICKET_DIR.glob('**/*.py') if not file.name.startswith('__')]
+    ticket_cogs = [file.stem for file in SUPPORT_DIR.glob('**/*.py') if not file.name.startswith('__')]
 
     for cog in command_cogs:
         client.load_extension(f'cogs.commands.{cog}')
 
     for cog in ticket_cogs:
-        client.load_extension(f'cogs.ticketsupport.{cog}')
+        client.load_extension(f'cogs.support.{cog}')
         
 
 def start_bot():
